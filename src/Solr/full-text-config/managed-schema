@@ -1,0 +1,41 @@
+<schema name="example" version="1.5">
+  
+  <!-- Field Definitions -->
+  <fields>
+    <field name="content" type="text_general" indexed="true" stored="true"/>
+    <field name="author" type="text_general" indexed="true" stored="true"/>
+    <field name="date" type="tdate" indexed="true" stored="true"/>
+    <field name="id" type="text_general" indexed="true" stored="true"/>
+    <field name="title" type="text_general" indexed="true" stored="true"/>
+  </fields>
+
+  <!-- Field Types -->
+  <types>
+    <!-- Define custom text field type (equivalent to 'content_analyzer' in Elasticsearch) -->
+    <fieldType name="text_general" class="solr.TextField" multiValued="false">
+      <analyzer type="index">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.AsciiFoldingFilterFactory"/>
+        <filter class="solr.TrimFilterFactory"/>
+        <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+        <filter class="solr.EnglishPorterStemFilterFactory"/>
+        <filter class="solr.LengthFilterFactory" min="3" max="25"/>
+        <filter class="solr.UniqueFilterFactory"/>
+      </analyzer>
+      <analyzer type="query">
+        <tokenizer class="solr.StandardTokenizerFactory"/>
+        <filter class="solr.LowerCaseFilterFactory"/>
+        <filter class="solr.AsciiFoldingFilterFactory"/>
+        <filter class="solr.TrimFilterFactory"/>
+        <filter class="solr.StopFilterFactory" words="stopwords.txt" ignoreCase="true"/>
+        <filter class="solr.EnglishPorterStemFilterFactory"/>
+        <filter class="solr.LengthFilterFactory" min="3" max="25"/>
+      </analyzer>
+    </fieldType>
+  </types>
+
+  <!-- Copy Fields -->
+  <copyField source="content" dest="content_keyword"/>
+
+</schema>

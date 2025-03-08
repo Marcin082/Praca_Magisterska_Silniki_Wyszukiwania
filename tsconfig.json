@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "typeRoots" : ["./node_modules/@types","./types"],
+    "target": "ES6",
+    "lib": ["es2019"],
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "outDir": "dist",
+  },
+  "include": ["src"],
+  "exclude": ["node_modules"]
+}

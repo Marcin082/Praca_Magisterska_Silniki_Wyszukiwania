@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "declaration": true,
+      "esModuleInterop": true,
+      "target": "es2021",
+      "lib": ["dom"],
+      "noImplicitAny": false,
+      "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
+      "outDir": "dist"
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    networks:
+      - engine
+  elasticsearch:
+    image: elasticsearch:8.6.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+      - "http.cors.enabled=true"
+      - "ingest.geoip.downloader.enabled=false"
+      - "http.cors.allow-origin=https://app.elasticvue.com"
+      - "http.cors.allow-headers=X-Requested-With,Content-Type,Content-Length,Authorization"
+    ports:
+      - "9200:9200"
+    networks:
+      - engine
+  solr:
+    image: solr:8.6.3
+    container_name: solr
+    command: >
+      solr -cloud -f -p 8983 -z zookeeper:2181
+    ports:
+      - "8983:8983"
+    depends_on:
+      - zookeeper
+    networks:
+      - engine
+
+  zookeeper:
+    image: zookeeper:3.7.0
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    networks:
+      - engine
+networks:
+  engine:
